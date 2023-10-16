@@ -9,18 +9,18 @@ public class Task1 {
 
     public static void main(String[] args) {
         game = new BullsAndCows();
-        System.out.println("Дано 5 попыток!");
+        System.out.println("Р”Р°РЅРѕ 5 РїРѕРїС‹С‚РѕРє!");
         for (int i = 0; i < 5; i++) {
             String userNumber = inputNumber();
             game.checkNumber(userNumber);
             if (!game.getGuessed()) {
-                System.out.println("Быков " + game.getBulls() + " и Коров " + game.getCows());
+                System.out.println("Р‘С‹РєРѕРІ " + game.getBulls() + " Рё РљРѕСЂРѕРІ " + game.getCows());
             } else {
-                System.out.println("Вы угадали!");
+                System.out.println("Р’С‹ СѓРіР°РґР°Р»Рё!");
             }
         }
         if (!game.getGuessed()) {
-            System.out.println("Загаданное число: " + game.getSecretNumber());
+            System.out.println("Р—Р°РіР°РґР°РЅРЅРѕРµ С‡РёСЃР»Рѕ: " + game.getSecretNumber());
         }
     }
 
@@ -28,7 +28,7 @@ public class Task1 {
         Scanner scanner = new Scanner(System.in);
         int result = 0;
         while (!game.isNumberMatch(result)) {
-            System.out.println("Введите 4х значное число: ");
+            System.out.println("Р’РІРµРґРёС‚Рµ 4С… Р·РЅР°С‡РЅРѕРµ С‡РёСЃР»Рѕ: ");
             result = scanner.nextInt();
         }
         return String.valueOf(result);

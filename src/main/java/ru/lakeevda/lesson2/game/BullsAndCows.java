@@ -22,7 +22,7 @@ public class BullsAndCows {
 
     public boolean isNumberMatch(int num) {
         String str = String.format("%04d", num);
-        // если строка - только четыре неповторяющиеся цифры
+        // РµСЃР»Рё СЃС‚СЂРѕРєР° - С‚РѕР»СЊРєРѕ С‡РµС‚С‹СЂРµ РЅРµРїРѕРІС‚РѕСЂСЏСЋС‰РёРµСЃСЏ С†РёС„СЂС‹
         if (str.length() == 4 && str.matches("(?!.*(.).*\\1)\\d{4}")) {
             return true;
         }

@@ -10,9 +10,9 @@ import static java.util.stream.IntStream.range;
 public class Task2 {
     public static void main(String[] args) {
         int[] arr = getArray();
-        System.out.println("Массив: " + Arrays.toString(arr));
-        System.out.println(String.format("Наличие соседних элементов, с нулевым значением: %s",
-                hasTwoZeros(arr) ? "Да" : "Нет"));
+        System.out.println("РњР°СЃСЃРёРІ: " + Arrays.toString(arr));
+        System.out.println(String.format("РќР°Р»РёС‡РёРµ СЃРѕСЃРµРґРЅРёС… СЌР»РµРјРµРЅС‚РѕРІ, СЃ РЅСѓР»РµРІС‹Рј Р·РЅР°С‡РµРЅРёРµРј: %s",
+                hasTwoZeros(arr) ? "Р”Р°" : "РќРµС‚"));
     }
 
     public static int[] getArray() {
@@ -20,7 +20,7 @@ public class Task2 {
         while (true) {
             try {
                 Scanner scanner = new Scanner(System.in);
-                System.out.print("Введите длину массива: ");
+                System.out.print("Р’РІРµРґРёС‚Рµ РґР»РёРЅСѓ РјР°СЃСЃРёРІР°: ");
                 sizeArray = scanner.nextInt();
                 break;
             } catch (InputMismatchException ignored) {
