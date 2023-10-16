@@ -28,7 +28,7 @@ public class Task1 {
     public static String inputNumber(){
         Scanner scanner = new Scanner(System.in);
         int result = 0;
-        while (!game.isNumberMatch(result)) {
+        while (game.isNotNumberMatch(result)) {
             System.out.println("Введите 4х значное число: ");
             result = scanner.nextInt();
         }

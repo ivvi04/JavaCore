@@ -16,17 +16,16 @@ public class BullsAndCows {
     public void startNew() {
         Random random = new Random();
         int rnd;
-        while (!isNumberMatch(rnd = random.nextInt(9900) + 100)) ;
+        while (isNotNumberMatch(rnd = random.nextInt(9900) + 100)) ;
         this.secretNumber = String.format("%04d", rnd);
     }
 
-    public boolean isNumberMatch(int num) {
+    public boolean isNotNumberMatch(int num) {
         String str = String.format("%04d", num);
-        // если строка - только четыре неповторяющиеся цифры
         if (str.length() == 4 && str.matches("(?!.*(.).*\\1)\\d{4}")) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void checkNumber(String userNumber) {
