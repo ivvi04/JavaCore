@@ -17,6 +17,7 @@ public class Task1 {
                 System.out.println("Быков " + game.getBulls() + " и Коров " + game.getCows());
             } else {
                 System.out.println("Вы угадали!");
+                break;
             }
         }
         if (!game.getGuessed()) {
