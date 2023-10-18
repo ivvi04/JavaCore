@@ -1,0 +1,70 @@
+package ru.lakeevda.lesson3.homework.services;
+
+import ru.lakeevda.lesson3.homework.assigment.Assigment;
+import ru.lakeevda.lesson3.homework.enums.Skill;
+import ru.lakeevda.lesson3.homework.enums.parameters.PriorityParams;
+import ru.lakeevda.lesson3.homework.person.Employee;
+import ru.lakeevda.lesson3.homework.enums.Status;
+import ru.lakeevda.lesson3.homework.repository.AssigmentRepository;
+
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+
+public class EmployeeService {
+    public List<Assigment> getAssigmentsByEmployee(Employee employee) {
+        return AssigmentRepository.getAssigmentList().stream()
+                .filter(x -> x.getEmployee() == employee)
+                .toList();
+    }
+
+    public boolean canStartOrFinishTaskByEmployee(Employee employee, Assigment assigment) {
+        Boolean result = true;
+        if (!employee.equals(assigment.getEmployee())) {
+            if (employee.getSkill().equals(Skill.MANAGER)
+                    && assigment.getEmployee().getDepartment().getManager().equals(employee)) ;
+            else
+//                employee = assigment.getEmployee();
+                result = false;
+//            else
+//                throw new RuntimeException("Only the specified employee or manager can start/finish a task");
+        }
+        return result;
+    }
+
+    public void startTaskByEmployee(Employee employee, Assigment assigment) {
+        if (canStartOrFinishTaskByEmployee(employee, assigment)) {
+            if (!employee.equals(assigment.getEmployee())) employee = assigment.getEmployee();
+            Employee finalEmployee = employee;
+            AssigmentRepository.getAssigmentList().stream()
+                    .filter(x -> x.getEmployee().equals(finalEmployee))
+                    .filter(x -> x != assigment)
+                    .filter(x -> !x.getStatus().equals(Status.COMPLETE))
+                    .forEach(x -> x.setStatus(Status.ON_HOLD));
+            finalEmployee.setWorking(true);
+            if (assigment.getFactStartDate() == null) assigment.setFactStartDate(LocalDate.now());
+            assigment.setStatus(Status.IN_PROGRESS);
+        }
+    }
+
+    public void finishTaskByEmployee(Employee employee, Assigment assigment) {
+        if (canStartOrFinishTaskByEmployee(employee, assigment)) {
+            if (!employee.equals(assigment.getEmployee())) employee = assigment.getEmployee();
+            employee.setWorking(false);
+            assigment.setFactEndDate(LocalDate.now());
+            assigment.setStatus(Status.COMPLETE);
+            startNextAssigmentByEmployee(employee);
+        }
+    }
+
+    public void startNextAssigmentByEmployee(Employee employee) {
+        if (!employee.isWorking()) {
+            List<Assigment> assigmentList = AssigmentRepository.getAssigmentList().stream()
+                    .filter(x -> x.getEmployee() == employee)
+                    .filter(x -> x.getStatus().equals(Status.ON_HOLD))
+                    .max(Comparator.comparingInt(x -> PriorityParams.priorityEnumMap.get(x.getTask().getPriority())))
+                    .stream().toList();
+            if (!assigmentList.isEmpty()) startTaskByEmployee(employee, assigmentList.get(0));
+        }
+    }
+}
