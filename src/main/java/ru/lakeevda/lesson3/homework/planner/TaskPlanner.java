@@ -1,16 +1,14 @@
-package ru.lakeevda.lesson3.homework.task;
+package ru.lakeevda.lesson3.homework.planner;
 
-import ru.lakeevda.lesson3.homework.assigment.Assigment;
+import ru.lakeevda.lesson3.homework.entity.assigment.Assigment;
+import ru.lakeevda.lesson3.homework.entity.task.Task;
 import ru.lakeevda.lesson3.homework.enums.Status;
 import ru.lakeevda.lesson3.homework.enums.parameters.PriorityParams;
-import ru.lakeevda.lesson3.homework.person.Employee;
-import ru.lakeevda.lesson3.homework.enums.Priority;
+import ru.lakeevda.lesson3.homework.entity.person.Employee;
 import ru.lakeevda.lesson3.homework.repository.AssigmentRepository;
 import ru.lakeevda.lesson3.homework.repository.EmployeeRepository;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 abstract public class TaskPlanner {
     public static Assigment planTask(Task task) {

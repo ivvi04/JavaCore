@@ -1,6 +1,6 @@
 package ru.lakeevda.lesson3.homework.repository;
 
-import ru.lakeevda.lesson3.homework.person.Employee;
+import ru.lakeevda.lesson3.homework.entity.person.Employee;
 
 import java.util.ArrayList;
 import java.util.List;

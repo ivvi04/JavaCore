@@ -1,7 +1,7 @@
-package ru.lakeevda.lesson3.homework.department;
+package ru.lakeevda.lesson3.homework.entity.department;
 
 import ru.lakeevda.lesson3.homework.enums.Skill;
-import ru.lakeevda.lesson3.homework.person.Employee;
+import ru.lakeevda.lesson3.homework.entity.person.Employee;
 
 public class Department {
     private String name;

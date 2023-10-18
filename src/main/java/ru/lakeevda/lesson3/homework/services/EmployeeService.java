@@ -1,9 +1,9 @@
 package ru.lakeevda.lesson3.homework.services;
 
-import ru.lakeevda.lesson3.homework.assigment.Assigment;
+import ru.lakeevda.lesson3.homework.entity.assigment.Assigment;
 import ru.lakeevda.lesson3.homework.enums.Skill;
 import ru.lakeevda.lesson3.homework.enums.parameters.PriorityParams;
-import ru.lakeevda.lesson3.homework.person.Employee;
+import ru.lakeevda.lesson3.homework.entity.person.Employee;
 import ru.lakeevda.lesson3.homework.enums.Status;
 import ru.lakeevda.lesson3.homework.repository.AssigmentRepository;
 

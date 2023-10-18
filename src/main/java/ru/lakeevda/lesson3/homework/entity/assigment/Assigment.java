@@ -1,8 +1,8 @@
-package ru.lakeevda.lesson3.homework.assigment;
+package ru.lakeevda.lesson3.homework.entity.assigment;
 
 import ru.lakeevda.lesson3.homework.enums.Status;
-import ru.lakeevda.lesson3.homework.person.Employee;
-import ru.lakeevda.lesson3.homework.task.Task;
+import ru.lakeevda.lesson3.homework.entity.person.Employee;
+import ru.lakeevda.lesson3.homework.entity.task.Task;
 
 import java.time.LocalDate;
 

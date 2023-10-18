@@ -1,8 +1,8 @@
 package ru.lakeevda.lesson3.homework.services;
 
 import ru.lakeevda.lesson3.homework.enums.Skill;
-import ru.lakeevda.lesson3.homework.person.Employee;
-import ru.lakeevda.lesson3.homework.person.Manager;
+import ru.lakeevda.lesson3.homework.entity.person.Employee;
+import ru.lakeevda.lesson3.homework.entity.person.Manager;
 import ru.lakeevda.lesson3.homework.repository.EmployeeRepository;
 
 public class ManagerService {

@@ -1,4 +1,4 @@
-package ru.lakeevda.lesson3.homework.task;
+package ru.lakeevda.lesson3.homework.entity.task;
 
 import ru.lakeevda.lesson3.homework.enums.Priority;
 import ru.lakeevda.lesson3.homework.enums.Skill;

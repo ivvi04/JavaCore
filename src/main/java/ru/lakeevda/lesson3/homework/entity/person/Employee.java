@@ -1,6 +1,6 @@
-package ru.lakeevda.lesson3.homework.person;
+package ru.lakeevda.lesson3.homework.entity.person;
 
-import ru.lakeevda.lesson3.homework.department.Department;
+import ru.lakeevda.lesson3.homework.entity.department.Department;
 import ru.lakeevda.lesson3.homework.enums.Skill;
 
 import java.time.LocalDate;

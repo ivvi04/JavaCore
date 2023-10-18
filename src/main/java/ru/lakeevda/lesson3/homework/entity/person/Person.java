@@ -1,4 +1,4 @@
-package ru.lakeevda.lesson3.homework.person;
+package ru.lakeevda.lesson3.homework.entity.person;
 
 import java.time.LocalDate;
 

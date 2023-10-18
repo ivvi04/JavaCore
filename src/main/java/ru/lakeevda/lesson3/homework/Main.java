@@ -1,16 +1,16 @@
 package ru.lakeevda.lesson3.homework;
 
 
-import ru.lakeevda.lesson3.homework.assigment.Assigment;
-import ru.lakeevda.lesson3.homework.department.Department;
+import ru.lakeevda.lesson3.homework.entity.assigment.Assigment;
+import ru.lakeevda.lesson3.homework.entity.department.Department;
 import ru.lakeevda.lesson3.homework.enums.Priority;
-import ru.lakeevda.lesson3.homework.person.*;
+import ru.lakeevda.lesson3.homework.entity.person.*;
 import ru.lakeevda.lesson3.homework.enums.Skill;
 import ru.lakeevda.lesson3.homework.repository.EmployeeRepository;
 import ru.lakeevda.lesson3.homework.services.ManagerService;
-import ru.lakeevda.lesson3.homework.task.TaskPlanner;
+import ru.lakeevda.lesson3.homework.planner.TaskPlanner;
 import ru.lakeevda.lesson3.homework.services.EmployeeService;
-import ru.lakeevda.lesson3.homework.task.Task;
+import ru.lakeevda.lesson3.homework.entity.task.Task;
 
 import java.time.LocalDate;
 

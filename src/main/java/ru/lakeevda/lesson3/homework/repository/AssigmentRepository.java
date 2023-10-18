@@ -1,6 +1,6 @@
 package ru.lakeevda.lesson3.homework.repository;
 
-import ru.lakeevda.lesson3.homework.assigment.Assigment;
+import ru.lakeevda.lesson3.homework.entity.assigment.Assigment;
 
 import java.util.ArrayList;
 import java.util.List;
