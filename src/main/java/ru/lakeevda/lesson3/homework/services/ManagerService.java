@@ -14,7 +14,6 @@ public class ManagerService {
             throw new RuntimeException("A manager can increase salary only in his own department");
         employee.setSalary(employee.getSalary() + amount);
     }
-
     public void increaseSalaryByManagerAllEmployees(Manager manager, double amount) {
         if (amount <= 0) throw new RuntimeException("The amount is less than or equal to zero");
         EmployeeRepository.getEmployees().stream()

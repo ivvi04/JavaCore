@@ -2,7 +2,6 @@ package ru.lakeevda.lesson3.homework.entity.task;
 
 import ru.lakeevda.lesson3.homework.enums.Priority;
 import ru.lakeevda.lesson3.homework.enums.Skill;
-import ru.lakeevda.lesson3.homework.enums.parameters.PriorityParams;
 
 import java.time.LocalDate;
 

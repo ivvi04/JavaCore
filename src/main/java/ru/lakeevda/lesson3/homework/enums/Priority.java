@@ -1,8 +1,16 @@
 package ru.lakeevda.lesson3.homework.enums;
 
 public enum Priority {
-    LOW,
-    MIDDLE,
-    HIGH,
-    VERY_HIGH
+    LOW(1),
+    MIDDLE(2),
+    HIGH(3),
+    VERY_HIGH(4);
+    private int code;
+    Priority(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
 }

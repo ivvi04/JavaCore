@@ -2,7 +2,6 @@ package ru.lakeevda.lesson3.homework.services;
 
 import ru.lakeevda.lesson3.homework.entity.assigment.Assigment;
 import ru.lakeevda.lesson3.homework.enums.Skill;
-import ru.lakeevda.lesson3.homework.enums.parameters.PriorityParams;
 import ru.lakeevda.lesson3.homework.entity.person.Employee;
 import ru.lakeevda.lesson3.homework.enums.Status;
 import ru.lakeevda.lesson3.homework.repository.AssigmentRepository;
@@ -62,7 +61,7 @@ public class EmployeeService {
             List<Assigment> assigmentList = AssigmentRepository.getAssigmentList().stream()
                     .filter(x -> x.getEmployee() == employee)
                     .filter(x -> x.getStatus().equals(Status.ON_HOLD))
-                    .max(Comparator.comparingInt(x -> PriorityParams.priorityEnumMap.get(x.getTask().getPriority())))
+                    .max(Comparator.comparingInt(x -> x.getTask().getPriority().getCode()))
                     .stream().toList();
             if (!assigmentList.isEmpty()) startTaskByEmployee(employee, assigmentList.get(0));
         }
