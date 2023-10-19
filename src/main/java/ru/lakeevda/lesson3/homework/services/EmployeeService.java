@@ -18,7 +18,7 @@ public class EmployeeService {
     }
 
     public boolean canStartOrFinishTaskByEmployee(Employee employee, Assigment assigment) {
-        Boolean result = true;
+        boolean result = true;
         if (!employee.equals(assigment.getEmployee())) {
             if (employee.getSkill().equals(Skill.MANAGER)
                     && assigment.getEmployee().getDepartment().getManager().equals(employee)) ;
