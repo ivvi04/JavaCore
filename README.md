@@ -2,7 +2,7 @@
 
 ## Урок 1. Компиляция и интерпретация кода
 
-**[Задание](https://github.com/ivvi04/JavaCore/blob/master/src/main/resources/docker-compose-lesson1.yaml)**
+**[Задание](https://github.com/ivvi04/JavaCore/blob/master/Dockerfile)**
 
 Создать докер образ для формирования полной документации по проекту.
 
