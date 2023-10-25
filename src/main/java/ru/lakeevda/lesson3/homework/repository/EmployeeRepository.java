@@ -7,15 +7,20 @@ import java.util.List;
 
 abstract public class EmployeeRepository {
 
-    static private List<Employee> employees;
+    static private List<Employee> employeeRepository;
 
     static public List<Employee> addEmployee(Employee employee){
-        if (employees == null) employees = new ArrayList<>();
-        employees.add(employee);
-        return employees;
+        createEmployeeRepository();
+        employeeRepository.add(employee);
+        return employeeRepository;
     }
 
-    static public List<Employee> getEmployees() {
-        return employees;
+    static public List<Employee> getRepository() {
+        createEmployeeRepository();
+        return employeeRepository;
+    }
+
+    static private void createEmployeeRepository() {
+        if (employeeRepository == null) employeeRepository = new ArrayList<>();
     }
 }

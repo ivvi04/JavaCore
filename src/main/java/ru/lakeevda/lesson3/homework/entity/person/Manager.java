@@ -13,7 +13,8 @@ public class Manager extends Employee {
     @Override
     public String toString() {
         return "Manager{" +
-                "lastName='" + lastName + '\'' +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +

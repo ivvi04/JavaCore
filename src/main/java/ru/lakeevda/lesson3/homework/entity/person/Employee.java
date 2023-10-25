@@ -12,9 +12,7 @@ public class Employee extends Person {
     protected boolean isWorking = false;
 
     public Employee(String lastName, String firstName, LocalDate birthDate, double salary, Department department, Skill skill) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.birthDate = birthDate;
+        super(lastName, firstName, birthDate);
         this.salary = salary;
         this.department = department;
         this.skill = skill;
@@ -55,7 +53,8 @@ public class Employee extends Person {
     @Override
     public String toString() {
         return "Employee{" +
-                "lastName='" + lastName + '\'' +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", birthDate=" + birthDate +
                 ", salary=" + salary +

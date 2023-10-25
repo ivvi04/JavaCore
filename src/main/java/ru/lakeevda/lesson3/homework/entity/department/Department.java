@@ -4,10 +4,13 @@ import ru.lakeevda.lesson3.homework.enums.Skill;
 import ru.lakeevda.lesson3.homework.entity.person.Employee;
 
 public class Department {
+    private int id;
     private String name;
     private Employee manager;
+    private static int count;
 
     public Department(String name) {
+        this.id = count++;
         this.name = name;
     }
 
@@ -27,8 +30,9 @@ public class Department {
     @Override
     public String toString() {
         return "Department{" +
-                "name='" + name + '\'' +
-                ", employeeManager='" + manager.getLastName() + " " + manager.getFirstName() + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", manager='" + manager.getLastName() + " " + manager.getFirstName() + '\'' +
                 '}';
     }
 }

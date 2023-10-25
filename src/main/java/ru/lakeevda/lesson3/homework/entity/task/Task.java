@@ -5,7 +5,8 @@ import ru.lakeevda.lesson3.homework.enums.Skill;
 
 import java.time.LocalDate;
 
-public class Task {
+public class Task implements Comparable<Task>{
+    protected int id;
     private String name;
     private int rank;
     private LocalDate createDate;
@@ -13,17 +14,26 @@ public class Task {
     private Priority priority;
     private Skill skill;
     private int length;
+    private static int count;
 
     public Task(String name, int rank, LocalDate dueDate, Skill skill, int length) {
+        this(name, rank, dueDate, Priority.LOW, skill, length);
+    }
+
+    public Task(String name, int rank, LocalDate dueDate, Priority priority, Skill skill, int length) {
+        this.id = count++;
         this.name = name;
         this.rank = rank;
         this.createDate = LocalDate.now();
         this.dueDate = dueDate;
         this.skill = skill;
-        this.priority = Priority.LOW;
+        this.priority = priority;
         this.length = length;
     }
 
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
@@ -75,7 +85,8 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", rank=" + rank +
                 ", createDate=" + createDate +
                 ", dueDate=" + dueDate +
@@ -83,5 +94,10 @@ public class Task {
                 ", skill=" + skill +
                 ", length=" + length +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        return this.priority.getCode() - o.priority.getCode();
     }
 }
