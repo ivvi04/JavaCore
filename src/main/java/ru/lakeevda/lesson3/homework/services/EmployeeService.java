@@ -51,6 +51,16 @@ public class EmployeeService {
         return result;
     }
 
+    public void startAssignmentPriorityByEmployee(Employee employee) throws EmployeeException {
+        List<Assignment> assignmentList = getAssignmentsByEmployee(employee).stream()
+                .filter(x -> x.getStatus().equals(Status.ON_HOLD))
+                    .max(Comparator.comparingInt(x -> x.getTask().getPriority().getCode())).stream().toList();
+        if (assignmentList.isEmpty()) assignmentList = getAssignmentsByEmployee(employee).stream()
+                    .filter(x -> x.getStatus().equals(Status.NEW))
+                    .max(Comparator.comparingInt(x -> x.getTask().getPriority().getCode())).stream().toList();
+        if (!assignmentList.isEmpty()) startAssignmentByEmployee(employee, assignmentList.get(0), true);
+    }
+
     public void startAssignmentByEmployee(Employee employee, int assignmentId) throws EmployeeException {
         startAssignmentByEmployee(employee, AssignmentRepository.getAssignmentById(assignmentId), true);
     }

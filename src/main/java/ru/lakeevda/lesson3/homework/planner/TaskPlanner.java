@@ -20,6 +20,17 @@ abstract public class TaskPlanner {
             List<Employee> employeeList = EmployeeRepository.getEmployeeRepository().stream()
                     .filter(x -> x.getSkill() == task.getSkill())
                     .filter(x -> !x.isWorking())
+                    .filter(x -> {
+                        /**
+                         * Так же проверяем нет ли уже созданных заданий в статусе NEW
+                         */
+                        List<Assignment> assigmentList1 = AssignmentRepository.getAssignmentRepository().stream()
+                                .filter(y -> y.getEmployee() == x)
+                                .filter(y -> y.getTask().getPriority().getCode() >= task.getPriority().getCode())
+                                .filter(y -> y.getStatus().equals(Status.NEW))
+                                .toList();
+                        return assigmentList1.isEmpty();
+                    })
                     .toList();
             if (employeeList.isEmpty()) {
                 List<Assignment> assigmentList = AssignmentRepository.getAssignmentRepository().stream()
@@ -34,7 +45,7 @@ abstract public class TaskPlanner {
                             List<Assignment> assigmentList1 = AssignmentRepository.getAssignmentRepository().stream()
                                     .filter(y -> y.getEmployee() == x.getEmployee())
                                     .filter(y -> y.getTask().getPriority().getCode() >= task.getPriority().getCode())
-                                    .filter(y -> y.getStatus().equals(Status.IN_PROGRESS))
+                                    .filter(y -> y.getStatus().equals(Status.IN_PROGRESS) || y.getStatus().equals(Status.NEW))
                                     .toList();
                             return assigmentList1.isEmpty();
                         })
@@ -53,7 +64,7 @@ abstract public class TaskPlanner {
     public static void planAllTask() throws Exception {
         List<Task> taskList = FreeTaskRepository.getFreeTaskRepository();
         for (Task task : taskList) {
-            planTask();
+            planTask(task);
         }
     }
 

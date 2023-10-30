@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 abstract public class AssignmentRepository {
-
     private static List<Assignment> assignmentRepository;
 
     public static List<Assignment> getAssignmentRepository() {
