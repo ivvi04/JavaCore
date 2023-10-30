@@ -3,12 +3,10 @@ package ru.lakeevda.lesson3.homework.planner;
 import ru.lakeevda.lesson3.homework.entity.assigment.Assignment;
 import ru.lakeevda.lesson3.homework.entity.department.Department;
 import ru.lakeevda.lesson3.homework.entity.task.Task;
+import ru.lakeevda.lesson3.homework.enums.Skill;
 import ru.lakeevda.lesson3.homework.enums.Status;
 import ru.lakeevda.lesson3.homework.entity.person.Employee;
 import ru.lakeevda.lesson3.homework.exceptions.Checker;
-import ru.lakeevda.lesson3.homework.exceptions.DepartmentException;
-import ru.lakeevda.lesson3.homework.exceptions.EmployeeException;
-import ru.lakeevda.lesson3.homework.exceptions.TaskException;
 import ru.lakeevda.lesson3.homework.repository.AssignmentRepository;
 import ru.lakeevda.lesson3.homework.repository.EmployeeRepository;
 import ru.lakeevda.lesson3.homework.repository.FreeTaskRepository;
@@ -16,17 +14,15 @@ import ru.lakeevda.lesson3.homework.repository.FreeTaskRepository;
 import java.util.List;
 
 abstract public class TaskPlanner {
-    public static Employee findEmployee(Department department, Task task) throws Exception {
+    public static Employee findEmployee(Task task) throws Exception {
         Employee employee = null;
-        if (Checker.departmentIsNotNull(department) && Checker.taskIsNotNull(task)) {
-            List<Employee> employeeList = EmployeeRepository.getRepository().stream()
-                    .filter(x -> x.getDepartment() == department)
+        if (Checker.taskIsNotNull(task)) {
+            List<Employee> employeeList = EmployeeRepository.getEmployeeRepository().stream()
                     .filter(x -> x.getSkill() == task.getSkill())
                     .filter(x -> !x.isWorking())
                     .toList();
             if (employeeList.isEmpty()) {
-                List<Assignment> assigmentList = AssignmentRepository.getRepository().stream()
-                        .filter(x -> x.getEmployee().getDepartment() == department)
+                List<Assignment> assigmentList = AssignmentRepository.getAssignmentRepository().stream()
                         .filter(x -> x.getEmployee().getSkill() == task.getSkill())
                         .filter(x -> x.getTask().getPriority().getCode() < task.getPriority().getCode())
                         .filter(x -> {
@@ -35,7 +31,7 @@ abstract public class TaskPlanner {
                              * а так же чтобы статус был IN_PROGRESS.
                              * Если такие имеются, то сотрудник нам не подходит
                              */
-                            List<Assignment> assigmentList1 = AssignmentRepository.getRepository().stream()
+                            List<Assignment> assigmentList1 = AssignmentRepository.getAssignmentRepository().stream()
                                     .filter(y -> y.getEmployee() == x.getEmployee())
                                     .filter(y -> y.getTask().getPriority().getCode() >= task.getPriority().getCode())
                                     .filter(y -> y.getStatus().equals(Status.IN_PROGRESS))
@@ -54,24 +50,24 @@ abstract public class TaskPlanner {
         return employee;
     }
 
-    public static void planAllTask(Department department) throws Exception {
-        if (Checker.departmentIsNotNull(department)) {
-            List<Task> taskList = FreeTaskRepository.getTasks(department);
-            for (Task task : taskList) {
-                planTask(department);
-            }
+    public static void planAllTask() throws Exception {
+        List<Task> taskList = FreeTaskRepository.getFreeTaskRepository();
+        for (Task task : taskList) {
+            planTask();
         }
     }
 
-    public static Assignment planTask(Department department) throws Exception {
-        Task task = FreeTaskRepository.getFirstTask(department);
-        return planTask(department, task);
+    public static Assignment planTask() throws Exception {
+        List<Task> taskList = FreeTaskRepository.getFreeTaskRepository();
+        Task task = null;
+        if (!taskList.isEmpty()) task = taskList.get(0);
+        return planTask(task);
     }
 
-    public static Assignment planTask(Department department, Task task) throws Exception {
+    public static Assignment planTask(Task task) throws Exception {
         Assignment result = null;
         if (task != null) {
-            Employee employee = findEmployee(department, task);
+            Employee employee = findEmployee(task);
             if (employee != null) {
                 result = createAssigment(employee, task);
             }
@@ -86,7 +82,7 @@ abstract public class TaskPlanner {
                 if (employee != null) {
                     assignment = new Assignment(employee, task);
                     AssignmentRepository.addAssignment(assignment);
-                    if (assignment != null) FreeTaskRepository.deleteTask(employee.getDepartment(), task);
+                    if (assignment != null) FreeTaskRepository.deleteTask(task);
                 }
             }
         }
@@ -100,8 +96,13 @@ abstract public class TaskPlanner {
     }
 
     public static void reAssignToAnotherEmployee(Assignment assignment) throws Exception {
-        Employee employee = findEmployee(assignment.getEmployee().getDepartment(), assignment.getTask());
-        if (employee == null) employee = assignment.getEmployee().getDepartment().getManager();
+        Employee employee = findEmployee(assignment.getTask());
+        if (employee == null) {
+            employee = EmployeeRepository.getEmployeeRepository().stream()
+                    .filter(x -> x.getDepartment() == assignment.getEmployee().getDepartment())
+                    .filter(x -> x.getSkill().equals(Skill.MANAGER))
+                    .toList().get(0);
+        }
         reAssignToAnotherEmployee(assignment, employee);
     }
 

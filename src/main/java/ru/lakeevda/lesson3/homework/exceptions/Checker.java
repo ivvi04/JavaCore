@@ -3,7 +3,6 @@ package ru.lakeevda.lesson3.homework.exceptions;
 import ru.lakeevda.lesson3.homework.entity.assigment.Assignment;
 import ru.lakeevda.lesson3.homework.entity.department.Department;
 import ru.lakeevda.lesson3.homework.entity.person.Employee;
-import ru.lakeevda.lesson3.homework.entity.person.Manager;
 import ru.lakeevda.lesson3.homework.entity.task.Task;
 
 abstract public class Checker {
@@ -30,19 +29,6 @@ abstract public class Checker {
         if (employee == null) {
             result = false;
             if (withThrow) throw new EmployeeException("Employee is null");
-        }
-        return result;
-    }
-
-    static public boolean managerIsNotNull(Manager manager) throws ManagerException {
-        return managerIsNotNull(manager, true);
-    }
-
-    static public boolean managerIsNotNull(Manager manager, boolean withThrow) throws ManagerException {
-        boolean result = true;
-        if (manager == null) {
-            result = false;
-            if (withThrow) throw new ManagerException("Employee is null");
         }
         return result;
     }

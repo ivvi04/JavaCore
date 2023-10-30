@@ -1,21 +1,37 @@
 package ru.lakeevda.lesson3.homework.services;
 
 import ru.lakeevda.lesson3.homework.entity.assigment.Assignment;
+import ru.lakeevda.lesson3.homework.entity.department.Department;
 import ru.lakeevda.lesson3.homework.enums.Skill;
 import ru.lakeevda.lesson3.homework.entity.person.Employee;
 import ru.lakeevda.lesson3.homework.enums.Status;
 import ru.lakeevda.lesson3.homework.exceptions.EmployeeException;
 import ru.lakeevda.lesson3.homework.repository.AssignmentRepository;
+import ru.lakeevda.lesson3.homework.repository.DepartmentRepository;
+import ru.lakeevda.lesson3.homework.repository.EmployeeRepository;
 
+import java.nio.charset.Charset;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class EmployeeService {
-    public List<Assignment> getAssigmentsByEmployee(Employee employee) {
-        return AssignmentRepository.getRepository().stream()
-                .filter(x -> x.getEmployee() == employee)
+
+    public List<Employee> getEmployeeRepository() {
+        return EmployeeRepository.getEmployeeRepository();
+    }
+
+    public List<Assignment> getAssignmentsByEmployee(Employee employee) {
+        return AssignmentRepository.getAssignmentRepository().stream()
+                .filter(x -> x.getEmployee().equals(employee))
                 .toList();
+    }
+
+    public Employee getEmployeeById(int employeeId) {
+        Employee result = null;
+        List<Employee> employeeList = EmployeeRepository.getEmployeeRepository().stream()
+                .filter(x -> x.getId() == employeeId).toList();
+        if (!employeeList.isEmpty()) result = employeeList.get(0);
+        return result;
     }
 
     public boolean canWorkWithAssignmentByEmployee(Employee employee, Assignment assignment) throws EmployeeException {
@@ -26,7 +42,7 @@ public class EmployeeService {
         boolean result = true;
         if (assignment != null && !employee.equals(assignment.getEmployee())) {
             if (employee.getSkill().equals(Skill.MANAGER)
-                    && assignment.getEmployee().getDepartment().getManager().equals(employee)) ;
+                    && assignment.getEmployee().getDepartment() == employee.getDepartment()) ;
             else {
                 result = false;
                 if (withThrow) throw new EmployeeException("This assignment cannot be started by this employee");
@@ -51,7 +67,7 @@ public class EmployeeService {
         if (assignment != null) {
             canWorkWithAssignmentByEmployee(employee, assignment);
             if (!employee.equals(assignment.getEmployee())) employee = assignment.getEmployee();
-            List<Assignment> assignmentList = getAssigmentsByEmployee(employee).stream()
+            List<Assignment> assignmentList = getAssignmentsByEmployee(employee).stream()
                     .filter(x -> x.getStatus().equals(Status.IN_PROGRESS))
                     .toList();
             if (!assignmentList.isEmpty()) {
@@ -61,7 +77,7 @@ public class EmployeeService {
                     }
                 } else throw new EmployeeException("The employee already has a assignment");
             }
-            employee.setWorking(true);
+            assignment.getEmployee().setWorking(true);
             if (assignment.getFactStartDate() == null) assignment.setFactStartDate(LocalDate.now());
             assignment.setStatus(Status.IN_PROGRESS);
         }
@@ -94,12 +110,78 @@ public class EmployeeService {
 
     public void startNextAssignmentByEmployee(Employee employee) throws EmployeeException {
         if (!employee.isWorking()) {
-            List<Assignment> assigmentList = AssignmentRepository.getRepository().stream()
-                    .filter(x -> x.getEmployee() == employee)
+            List<Assignment> assigmentList = AssignmentRepository.getAssignmentRepository().stream()
+                    .filter(x -> x.getEmployee().equals(employee))
                     .filter(x -> x.getStatus().equals(Status.ON_HOLD))
                     .max(Comparator.comparingInt(x -> x.getTask().getPriority().getCode()))
                     .stream().toList();
             if (!assigmentList.isEmpty()) startAssignmentByEmployee(employee, assigmentList.get(0));
         }
+    }
+
+    public void addEmployeeConsole() {
+        Scanner scanner = new Scanner(System.in, Charset.forName("windows-1251"));
+        System.out.println("Введите Фамилию:");
+        String lastName = scanner.next();
+        System.out.println("Введите Имя:");
+        String firstName = scanner.next();
+        LocalDate birthDate;
+        while (true) {
+            System.out.println("Введите Дату рождения (Формат ГГГГ-ММ-ДД):");
+            try {
+                birthDate = LocalDate.parse(scanner.next());
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Неверный формат даты рождения. Повторите ввод");
+            }
+        }
+        double salary;
+        while (true) {
+            System.out.println("Введите Зарплату:");
+            try {
+                salary = scanner.nextDouble();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Неверный формат зарплаты. Повторите ввод");
+            }
+        }
+        Department department;
+        while (true) {
+            System.out.println("Выберете Отдел по id:");
+            System.out.println(DepartmentRepository.getDepartmentRepository());
+            try {
+                int departmentId = scanner.nextInt();
+                DepartmentService departmentService = new DepartmentService();
+                department = departmentService.getDepartmentById(departmentId);
+                if (department == null) throw new EmployeeException();
+                break;
+            } catch (InputMismatchException | EmployeeException e) {
+                System.out.println("Неверный id отдела. Повторите ввод");
+            }
+        }
+        Skill skill;
+        while (true) {
+            System.out.println("Выберете Навык из списка:");
+            for (Skill skill1 : Skill.values()) System.out.print(skill1 + " ");
+            System.out.println();
+            try {
+                skill = Skill.valueOf(scanner.next());
+                if (skill == null) throw new EmployeeException();
+                break;
+            } catch (InputMismatchException | EmployeeException e) {
+                System.out.println("Неверный навык. Повторите ввод");
+            }
+        }
+        addEmployee(lastName, firstName, birthDate, salary, department, skill);
+    }
+
+    public void addEmployee(String lastName, String firstName, LocalDate birthDate, double salary,
+                            Department department, Skill skill) {
+        Employee employee = new Employee(lastName, firstName, birthDate, salary, department, skill);
+        addEmployeeToRepository(employee);
+    }
+
+    public void addEmployeeToRepository(Employee employee) {
+        EmployeeRepository.addEmployee(employee);
     }
 }

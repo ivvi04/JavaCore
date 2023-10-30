@@ -1,10 +1,15 @@
 package ru.lakeevda.lesson3.homework.entity.person;
 
+import lombok.*;
 import ru.lakeevda.lesson3.homework.entity.department.Department;
 import ru.lakeevda.lesson3.homework.enums.Skill;
 
 import java.time.LocalDate;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(callSuper = true)
 public class Employee extends Person {
     protected double salary;
     protected Department department;
@@ -16,51 +21,5 @@ public class Employee extends Person {
         this.salary = salary;
         this.department = department;
         this.skill = skill;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSalary(double salary) {
-        this.salary = salary;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-
-    public boolean isWorking() {
-        return isWorking;
-    }
-
-    public void setWorking(boolean working) {
-        isWorking = working;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", birthDate=" + birthDate +
-                ", salary=" + salary +
-                ", department=" + department +
-                ", skill=" + skill +
-                ", isWorking=" + isWorking +
-                '}';
     }
 }

@@ -1,7 +1,12 @@
 package ru.lakeevda.lesson3.homework.entity.person;
 
+import lombok.*;
+
 import java.time.LocalDate;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
     protected int id;
     protected String lastName;
@@ -16,33 +21,8 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", birthDate=" + birthDate +
-                '}';
+    public void setId(int id) {
+        this.id = id;
+        if (id >= count) count = ++id;
     }
 }

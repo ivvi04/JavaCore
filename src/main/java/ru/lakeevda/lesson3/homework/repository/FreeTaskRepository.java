@@ -1,60 +1,48 @@
 package ru.lakeevda.lesson3.homework.repository;
 
 
-import ru.lakeevda.lesson3.homework.entity.department.Department;
+import ru.lakeevda.lesson3.homework.entity.person.Employee;
 import ru.lakeevda.lesson3.homework.entity.task.Task;
-import ru.lakeevda.lesson3.homework.exceptions.Checker;
 import ru.lakeevda.lesson3.homework.exceptions.DepartmentException;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class FreeTaskRepository {
-    static private Map<Department, List<Task>> freeTaskRepository;
+abstract public class FreeTaskRepository {
+    private static List<Task> freeTaskRepository;
 
-    static public List<Task> addTask(Department department, Task task) throws DepartmentException {
+    public static List<Task> getFreeTaskRepository() {
         List<Task> result = null;
-        if (Checker.departmentIsNotNull(department)) {
-            createFreeTaskRepository();
-            result = freeTaskRepository.get(department);
-            if (result == null) result = new ArrayList<>();
-            result.add(task);
-            freeTaskRepository.put(department, result);
-        }
+        createFreeTaskRepository();
+        result = freeTaskRepository.stream()
+                .sorted(Comparator.comparingInt(x -> (x.getPriority().getCode())))
+                .toList();
         return result;
     }
 
-    static public Map<Department, List<Task>> getRepository() {
+    public static void setFreeTaskRepository(List<Task> freeTaskList) {
         createFreeTaskRepository();
+        if (freeTaskList != null) freeTaskRepository.addAll(freeTaskList);
+    }
+
+    public static List<Task> addTask(Task task) {
+        createFreeTaskRepository();
+        freeTaskRepository.add(task);
         return freeTaskRepository;
     }
 
-    static public List<Task> getTasks(Department department) throws DepartmentException {
-        List<Task> result = null;
-        if (Checker.departmentIsNotNull(department)) {
-            createFreeTaskRepository();
-            result = freeTaskRepository.get(department).stream()
-                    .sorted(Comparator.comparingInt(x -> (x.getPriority().getCode())))
-                    .toList();
-        }
-        return result;
+    public static void deleteTask(Task task) {
+        deleteTask(freeTaskRepository.indexOf(task));
     }
 
-    static public Task getFirstTask(Department department) throws DepartmentException {
-        Task result = null;
-        if (Checker.departmentIsNotNull(department)) result = freeTaskRepository.get(department).get(0);
-        return result;
+    public static void deleteTask(int index) {
+        freeTaskRepository.remove(index);
     }
 
-    static public void deleteTask(Department department, Task task) throws DepartmentException {
-        deleteTask(department, freeTaskRepository.get(department).indexOf(task));
+    private static void createFreeTaskRepository() {
+        if (freeTaskRepository == null) freeTaskRepository = new ArrayList<>();
     }
-
-    static public void deleteTask(Department department, int index) throws DepartmentException {
-        if (Checker.departmentIsNotNull(department)) freeTaskRepository.get(department).remove(index);
-    }
-
-    static private void createFreeTaskRepository() {
-        if (freeTaskRepository == null) freeTaskRepository = new HashMap<>();
-    }
-
 }

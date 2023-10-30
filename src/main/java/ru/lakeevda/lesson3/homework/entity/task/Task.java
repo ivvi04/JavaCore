@@ -1,19 +1,23 @@
 package ru.lakeevda.lesson3.homework.entity.task;
 
+import lombok.*;
 import ru.lakeevda.lesson3.homework.enums.Priority;
 import ru.lakeevda.lesson3.homework.enums.Skill;
 
 import java.time.LocalDate;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Task implements Comparable<Task>{
     protected int id;
-    private String name;
-    private int rank;
-    private LocalDate createDate;
-    private LocalDate dueDate;
-    private Priority priority;
-    private Skill skill;
-    private int length;
+    protected String name;
+    protected int rank;
+    protected LocalDate createDate;
+    protected LocalDate dueDate;
+    protected Priority priority;
+    protected Skill skill;
+    protected int length;
     private static int count;
 
     public Task(String name, int rank, LocalDate dueDate, Skill skill, int length) {
@@ -31,69 +35,9 @@ public class Task implements Comparable<Task>{
         this.length = length;
     }
 
-    public int getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int range) {
-        this.rank = range;
-    }
-
-    public LocalDate getCreateDate() {
-        return createDate;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", rank=" + rank +
-                ", createDate=" + createDate +
-                ", dueDate=" + dueDate +
-                ", priority=" + priority +
-                ", skill=" + skill +
-                ", length=" + length +
-                '}';
+    public void setId(int id) {
+        this.id = id;
+        if (id >= count) count = ++id;
     }
 
     @Override
