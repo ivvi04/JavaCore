@@ -1,24 +1,17 @@
 package ru.lakeevda.lesson3.homework;
 
-import ru.lakeevda.lesson3.homework.entity.assigment.Assignment;
 import ru.lakeevda.lesson3.homework.entity.department.Department;
 import ru.lakeevda.lesson3.homework.entity.person.Employee;
 import ru.lakeevda.lesson3.homework.entity.task.Task;
 import ru.lakeevda.lesson3.homework.enums.Priority;
 import ru.lakeevda.lesson3.homework.enums.Skill;
-import ru.lakeevda.lesson3.homework.exceptions.AssignmentException;
-import ru.lakeevda.lesson3.homework.exceptions.EmployeeException;
 import ru.lakeevda.lesson3.homework.menu.MainMenu;
-import ru.lakeevda.lesson3.homework.planner.TaskPlanner;
-import ru.lakeevda.lesson3.homework.repository.AssignmentRepository;
 import ru.lakeevda.lesson3.homework.repository.DepartmentRepository;
 import ru.lakeevda.lesson3.homework.repository.EmployeeRepository;
 import ru.lakeevda.lesson3.homework.repository.FreeTaskRepository;
 import ru.lakeevda.lesson3.homework.services.*;
 
 import java.time.LocalDate;
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Main {
     static Department department;
@@ -53,6 +46,11 @@ public class Main {
     public static void writeData() throws Exception {
         FileService writeReadService = new FileService();
         writeReadService.FileWriter();
+    }
+
+    public static void createDepartment() {
+        department = new Department("Отдел1");
+        DepartmentRepository.addDepartment(department);
     }
 
     public static void createEmployees() {
